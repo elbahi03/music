@@ -9,6 +9,7 @@ use App\Http\Controllers\AlbumController;
 
 
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -35,5 +36,6 @@ Route::get('artists/id/{id}', [ArtistController::class, 'getById']);
 // Album
 Route::apiResource('albums', AlbumController::class);
 
+use App\Http\Controllers\SongController;
 
-
+Route::apiResource('songs', SongController::class);
