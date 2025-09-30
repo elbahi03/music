@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ArtistController;
+use App\Http\Controllers\AlbumController;
 
 
 
@@ -30,6 +31,9 @@ Route::apiResource('artists', ArtistController::class);
 Route::get('artists/genre/{genre}', [ArtistController::class, 'getByGenre']);
 Route::get('artists/name/{name}', [ArtistController::class, 'getByName']);
 Route::get('artists/id/{id}', [ArtistController::class, 'getById']);
+
+// Album
+Route::apiResource('albums', AlbumController::class);
 
 
 
