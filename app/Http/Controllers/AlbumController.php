@@ -40,6 +40,18 @@ class AlbumController extends Controller
         return response()->json($album, 200);
     }
 
+    // details de album
+    public function songs($id)
+    {
+        $album = Album::with('songs')->find($id);
+
+         if (!$album) {
+             return response()->json(['message' => 'Album non trouvé'], 404);
+    }
+
+         return response()->json($album->songs, 200);
+    }
+
     //  Mettre à jour un album
     public function update(Request $request, $id)
     {

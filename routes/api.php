@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\ArtistController;
 use App\Http\Controllers\AlbumController;
+use App\Http\Controllers\SongController;
 
 
 
@@ -32,10 +33,12 @@ Route::apiResource('artists', ArtistController::class);
 Route::get('artists/genre/{genre}', [ArtistController::class, 'getByGenre']);
 Route::get('artists/name/{name}', [ArtistController::class, 'getByName']);
 Route::get('artists/id/{id}', [ArtistController::class, 'getById']);
+Route::get('/artists/album/{artist}', [ArtistController::class, 'details']);
 
 // Album
 Route::apiResource('albums', AlbumController::class);
+Route::get('albums/{id}/songs', [AlbumController::class, 'songs']);
 
-use App\Http\Controllers\SongController;
-
+// song
+Route::get('songs/search', [SongController::class, 'chercherr']);
 Route::apiResource('songs', SongController::class);

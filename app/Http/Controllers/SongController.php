@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Song;
 use App\Models\Album;
+use App\Models\Artist;
 
 class SongController extends Controller
 {
@@ -73,4 +74,32 @@ class SongController extends Controller
  
          return response()->json(['message' => 'Chanson suprimee'], 204);
      }
+
+     public function chercherr(Request $request)
+{
+    $title = $request->query('title');
+    $artist = $request->query('artist');
+    
+
+    $query = Song::with('album.artist');
+
+    if ($title) {
+        $query->where('title', 'like', "%$title%");
+    }
+
+    if ($artist) {
+        $query->whereHas('album.artist', function ($q) use ($artist) {
+            $q->where('name', 'like', "%$artist%");
+        });
+    }
+
+    $songs = $query->get();
+
+    if ($songs->isEmpty()) {
+        return response()->json(['message' => 'Chanson'], 404);
+    }
+
+    return response()->json($songs, 200);
+}
+
 }

@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Artist;
+
+
 
 class ArtistController extends Controller
 {
@@ -68,6 +69,20 @@ class ArtistController extends Controller
  
          return response()->json($artist, 200);
      }
+
+    // affiche albums de artist
+
+     public function details($id)
+    {
+         $artist = Artist::with('albums')->find($id);
+
+         if (!$artist) {
+             return response()->json(['message' => 'Artiste non trouvé'], 404);
+         }
+
+        return response()->json($artist, 200);
+    }
+
 
     //  Mettre à jour un artiste
     public function update(Request $request, Artist $artist)
