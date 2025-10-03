@@ -40,5 +40,5 @@ Route::apiResource('albums', AlbumController::class);
 Route::get('albums/{id}/songs', [AlbumController::class, 'songs']);
 
 // song
-Route::get('songs/search', [SongController::class, 'chercherr']);
+
 Route::apiResource('songs', SongController::class);

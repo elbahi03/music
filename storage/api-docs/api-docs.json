@@ -1,0 +1,911 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "🎶 MusicBoxAPI",
+        "description": "API RESTful pour la gestion des artistes, albums et chansons.\n *                   Cette API permet de gérer les ressources principales :\n *                   - Artistes\n *                   - Albums\n *                   - Chansons\n *                   Elle inclut des fonctionnalités de recherche, pagination et filtres.",
+        "contact": {
+            "name": "MusicBox API Team",
+            "email": "support@musicboxapi.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Local development server"
+        }
+    ],
+    "paths": {
+        "/api/albums": {
+            "get": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Lister tous les albums",
+                "operationId": "735609843dcfb89ee4e12e340eddca25",
+                "responses": {
+                    "200": {
+                        "description": "Liste des albums paginée"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Créer un nouvel album",
+                "operationId": "2252aa8fd63b7d2fa1203c1735943d46",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "artist_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "The Marshall Mathers LP"
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": 2000
+                                    },
+                                    "artist_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Album créé avec succès"
+                    }
+                }
+            }
+        },
+        "/api/albums/{id}": {
+            "get": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Afficher un album par ID",
+                "operationId": "71e9c4179582355e89419e6f6994c418",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Album trouvé"
+                    },
+                    "404": {
+                        "description": "Album non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Mettre à jour un album",
+                "operationId": "1300ec85cc590b1ae1468c9bf8db122d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Encore"
+                                    },
+                                    "year": {
+                                        "type": "integer",
+                                        "example": 2004
+                                    },
+                                    "artist_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Album mis à jour avec succès"
+                    },
+                    "404": {
+                        "description": "Album non trouvé"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Supprimer un album",
+                "operationId": "cabfc7c152115607d310827d46a82d5a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Album supprimé avec succès"
+                    },
+                    "404": {
+                        "description": "Album non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/albums/{id}/songs": {
+            "get": {
+                "tags": [
+                    "Albums"
+                ],
+                "summary": "Lister les chansons d'un album",
+                "operationId": "2d86f07a20921b0701894cdb6aedcc80",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'album",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des chansons de l'album"
+                    },
+                    "404": {
+                        "description": "Album non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/artists": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Lister les artistes",
+                "description": "Retourne la liste paginée des artistes",
+                "operationId": "2c8aed1387cca1c65d98da7ee11ac926",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Numéro de page",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des artistes"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Créer un nouvel artiste",
+                "operationId": "83d2888bdc6fac66b9a7cc81c4c950fb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Eminem"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Rap"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "USA"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Artiste créé avec succès"
+                    }
+                }
+            }
+        },
+        "/api/artists/{id}": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Afficher un artiste par ID",
+                "operationId": "d0b68c06b8bc310fbe24c6d3ea80dac3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'artiste",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Artiste trouvé"
+                    },
+                    "404": {
+                        "description": "Artiste non trouvé"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Mettre à jour un artiste",
+                "operationId": "5a5632ea389f9a05336f8d035f5a44c0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'artiste",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Slim Shady"
+                                    },
+                                    "genre": {
+                                        "type": "string",
+                                        "example": "Hip-Hop"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "example": "USA"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Artiste mis à jour"
+                    },
+                    "404": {
+                        "description": "Artiste non trouvé"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Supprimer un artiste",
+                "operationId": "4f6d8bd2c8b4b738af7589b72348ac20",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'artiste",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Artiste supprimé avec succès"
+                    },
+                    "404": {
+                        "description": "Artiste non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/artists/genre/{genre}": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Lister les artistes par genre",
+                "operationId": "2a7e6b27348da90a55d74ed9984c03f6",
+                "parameters": [
+                    {
+                        "name": "genre",
+                        "in": "path",
+                        "description": "Genre musical",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Rap"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Liste des artistes"
+                    },
+                    "404": {
+                        "description": "Aucun artiste trouvé pour ce genre"
+                    }
+                }
+            }
+        },
+        "/api/artists/name/{name}": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Trouver un artiste par nom",
+                "operationId": "51857c1910829c0668a41c6f5726bf4f",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "path",
+                        "description": "Nom de l'artiste",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Eminem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Artiste trouvé"
+                    },
+                    "404": {
+                        "description": "Artiste non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/artists/{id}/details": {
+            "get": {
+                "tags": [
+                    "Artists"
+                ],
+                "summary": "Afficher un artiste avec ses albums",
+                "operationId": "5d27e679115aff47d01483df92ca261b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'artiste",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Détails de l'artiste et ses albums"
+                    },
+                    "404": {
+                        "description": "Artiste non trouvé"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Authentifier un utilisateur (login)",
+                "description": "Permet à un utilisateur de se connecter et de recevoir un token d'accès.",
+                "operationId": "bc76a9d52929cab7a147ca7b5c527430",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "test@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Connexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Yassine"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "test@test.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|XyzAbc12345..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Identifiants invalides",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Invalid credentials"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Déconnexion (logout)",
+                "description": "Supprime le token de l’utilisateur actuellement connecté.",
+                "operationId": "0ab4e3cf7bc4f7ec81b48f7928c7de7c",
+                "responses": {
+                    "200": {
+                        "description": "Déconnexion réussie",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Logged out successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Inscrire un nouvel utilisateur",
+                "description": "Crée un compte utilisateur et retourne un token d'accès.",
+                "operationId": "18235ea6963e661c49bf381065779d6a",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password",
+                                    "password_confirmation"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Yassine"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "yassine@test.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur créé avec succès",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Yassine"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "yassine@test.com"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|AbCdEfGh123456..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erreur de validation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The email field must be a valid email address."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/songs": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Lister toutes les chansons",
+                "operationId": "0388bb28c35eec49b8b492d169ce3575",
+                "responses": {
+                    "200": {
+                        "description": "Liste paginée des chansons"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Créer une nouvelle chanson",
+                "operationId": "2f1970b82d91cc715578d972189f19cb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "title",
+                                    "duration",
+                                    "album_id"
+                                ],
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Lose Yourself"
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "example": 326
+                                    },
+                                    "album_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Chanson créée avec succès"
+                    }
+                }
+            }
+        },
+        "/api/songs/{id}": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Afficher une chanson par ID",
+                "operationId": "4325a96361d1d3820cc0580eaae9197c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la chanson",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Chanson trouvée"
+                    },
+                    "404": {
+                        "description": "Chanson non trouvée"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Mettre à jour une chanson",
+                "operationId": "452de7f8f11a121cd11e9430565632c3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la chanson",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Stan"
+                                    },
+                                    "duration": {
+                                        "type": "integer",
+                                        "example": 400
+                                    },
+                                    "album_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Chanson mise à jour avec succès"
+                    },
+                    "404": {
+                        "description": "Chanson non trouvée"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Supprimer une chanson",
+                "operationId": "829c1a52ae5013ce3ff4b9829a31485f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la chanson",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Chanson supprimée"
+                    },
+                    "404": {
+                        "description": "Chanson non trouvée"
+                    }
+                }
+            }
+        },
+        "/api/songs/search": {
+            "get": {
+                "tags": [
+                    "Songs"
+                ],
+                "summary": "Rechercher une chanson par titre ou artiste",
+                "operationId": "f09417af32c117732bb14bc6def5bbdc",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Titre partiel ou complet de la chanson",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Lose Yourself"
+                        }
+                    },
+                    {
+                        "name": "artist",
+                        "in": "query",
+                        "description": "Nom de l'artiste",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "Eminem"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Résultats de la recherche"
+                    },
+                    "404": {
+                        "description": "Aucune chanson trouvée"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "API Token",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Albums",
+            "description": "Albums"
+        },
+        {
+            "name": "Artists",
+            "description": "Artists"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Songs",
+            "description": "Songs"
+        }
+    ]
+}
